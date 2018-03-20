@@ -1,0 +1,257 @@
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Week 8 Lab - JavaScript DOM and Arrays</title>
+			<meta charset="utf-8">
+			<link href="css/style.css" rel="stylesheet">
+
+			<script>
+				function validateForm(){
+
+					//e.preventDefault();
+		          	 //check the content (empty?)
+		          	 var textNodelist = document.orderForm;
+		          	 var errorNodelist = document.getElementsByTagName("label");
+		          	 
+		          	 errorFound = false;
+
+		          	  // errorNodelist index i from 0 to increased,
+		          	  // textNodelist index from i+1=1 to increased
+		          	 for (i=0;i<=3;i++){
+		          	 	if (textNodelist[i+1].value == ""){
+		          	 		errorFound = true;
+		          	 		errorNodelist[i].innerHTML="Please fill out this field.";
+		          	 	}else{
+		          	 		errorNodelist[i].innerHTML = "";
+		          	 	}	
+		          	 }
+
+		// check the province is choosed
+		if(i==4){
+			if (textNodelist[5].value == ""){
+				errorFound = true;
+				// errorNodelist.item(4).textContent = "Please select a Province.";
+				errorNodelist[4].innerHTML="Please select a Province.";
+			}else{
+				// errorNodelist.item(4).textContent = "";
+				errorNodelist[4].innerHTML="";
+			}	
+		}   	 
+
+		//check the content (empty?)
+		for (i=5;i<=8;i++){
+			if (textNodelist[i+1].value == ""){
+				errorFound = true;
+				errorNodelist[i].innerHTML= "Please fill out this field.";
+			}else{
+				errorNodelist[i].innerHTML = "";
+			}	
+		}
+
+		             //check the length of postal code (=6?)
+		             if (textNodelist[6].value !=""){
+		             	if (textNodelist[6].value.length !=6){
+		             		errorNodelist[5].innerHTML = "The postal code field must be 6 digits long.";
+		             		errorFound = true;
+		             	}else{
+		             		errorNodelist[5].innerHTML = "";
+		             	}  
+		             }  
+		//Check the value of widget (>=0?)
+		          	 for (i=6;i<=8;i++){
+		          	 	  if (textNodelist[i+1].value < 0){
+		          	 	     errorFound = true;
+		          	 	     errorNodelist[i].innerHTML = "The quantity must be greater than or equal to zero.";
+		          	 	  }
+		          	 }
+		             
+
+		             if (textNodelist[7].value!="" && textNodelist[7].value ==0 && textNodelist[8].value!="" &&textNodelist[8].value==0 && textNodelist[9].value!="" && textNodelist[9].value==0){
+		     	 	        errorFound = true;
+		     	 	         errorNodelist[8].innerHTML= "Must choose one item value great than zero from three of widgets.";
+		              	}
+
+		//calculate the price
+		            var shippingPrice =0;
+		             for (i=9; i<=11;i++){
+		             	if (textNodelist[10].checked||textNodelist[11].checked||textNodelist[12].checked){
+		             		
+		             		errorNodelist[i].innerHTML = "";
+		             	}
+		             	else{
+		             	errorFound = true;
+		             		errorNodelist[9].innerHTML = "Must choose one of the three shipping type.";
+
+		             	}
+		             	
+		             }
+		             switch(i) { 
+		             	case 9: shippingPrice=5;
+		             	break; 
+		             	case 10: shippingPrice=10;
+		             	break; 
+		             	case 11: shippingPrice=20;
+		             	break; 
+		             	default: shippingPrice="";
+		             	break;
+		             }
+		             totalPrice = textNodelist[7].value * 5 + textNodelist[8].value*15 + textNodelist[9].value*25 + shippingPrice;
+		             
+		             //submit
+		             if (errorFound==true){
+		             	return false;
+		             }else{
+		             	
+		             	// setTimeout(funtion(){
+		             	// 	alert("Your order is submitted. The total price is $" + totalPrice +"."); 
+		             	// },100);
+
+     alert("Your order is submitted. The total price is $" + totalPrice +"."); 
+
+		             	
+		             	
+		             }
+
+
+		         }   
+		     </script>
+
+		 </head>
+		 <body>
+		 	<div id="wrapper">
+
+		 		<h2 class="center">Order Form</h2>
+		 		<form name="orderForm" method="post" action="processForm.html" onsubmit="return validateForm()">
+		 			<fieldset>
+
+		 				<table>
+
+		 					<tr>
+		 						<th class="header" colspan="3">Personal Information</th>
+		 					</tr>
+
+		 					<tr><td colspan="3" class="space"></td></tr>
+
+		 					<tr>
+		 						<td><span class="required">*</span>First Name:</td>
+		 						<td><input type="text" name="firstName" id="firstName" size="30" ></td>
+		 						<td><label class="errorMessage"></label></td> 
+		 					</tr>
+		 					<tr>
+		 						<td><span class="required">*</span>Last Name:</td>
+		 						<td><input type="text" name="lastName" id="lastName" size="30"></td>
+		 						<td><label class="errorMessage"></label></td> 
+		 					</tr>
+		 					<tr>
+		 						<td><span class="required">*</span>Address:</td>
+		 						<td><input type="text" name="address" id="address" size="30"></td>
+		 						<td><label class="errorMessage"></label></td> 
+		 					</tr>
+		 					<tr>
+		 						<td><span class="required">*</span>City:</td>
+		 						<td><input type="text" name="city" id="city" size="30"></td>
+		 						<td><label class="errorMessage"></label></td> 
+		 					</tr>
+		 					<tr>
+		 						<td><span class="required">*</span>Province:</td>
+		 						<td><select name="province" id="province" size="1">
+		 							<option value="">Select a province</option>
+		 							<option value="BC">British Columbia</option>
+		 							<option value="AB">Alberta</option>
+		 							<option value="SK">Saskatchewan</option>
+		 							<option value="MB">Manitoba</option>
+		 							<option value="ON">Ontario</option>
+		 							<option value="QC">Québec</option>
+		 							<option value="NB">New Brunswick</option>
+		 							<option value="NS">Nova Scotia</option>
+		 							<option value="PE">Prince Edward Island</option>
+		 							<option value="NF">Newfoundland</option>
+		 							<option value="YK">Yukon</option>
+		 							<option value="NWT">Northwest Territories</option>
+		 							<option value="NU">Nunavut</option>
+		 						</select>
+		 					</td>
+		 					<td><label class="errorMessage"></label></td> 
+		 				</tr>
+		 				<tr>
+		 					<td><span class="required">*</span>Postal Code:</td>
+		 					<td><input type="text" name="postalCode" id="postalCode" maxlength="6"></td>
+		 					<td><label class="errorMessage"></label></td> 
+		 				</tr>
+		 				
+						<tr><td colspan="3" class="space"></td></tr>
+
+		 				<tr>
+		 					<th class="header" colspan="3">Order Information</th>
+		 				</tr>
+
+		 				<tr><td colspan="3" class="space"></td></tr>
+
+		 				<tr>
+		 					<td rowspan="3"><span class="required">*</span>Select your products:<br>
+		 						<span id="productError" class="error" hidden></span></td>
+		 						<td>Widget #1&nbsp;
+		 							<input type="text" name="widget1qty" id="widget1qty" size="1" value="">Qty @ <strong>$5.00/ea</strong></td>
+		 							<td><label class="errorMessage"></label></td> 
+		 						</tr>
+		 						<tr>
+		 							<td>Widget #2&nbsp;
+		 								<input type="text" name="widget2qty" id="widget2qty" size="1" value="">Qty @ <strong>$15.00/ea</strong></td>
+		 								<td><label class="errorMessage"></label></td> 
+		 							</tr>
+		 							<tr>
+		 								<td>Widget #3&nbsp;
+		 									<input type="text" name="widget3qty" id="widget3qty" size="1" value="">Qty @ <strong>$25.00/ea</strong></td>
+		 									<td><label class="errorMessage"></label></td> 
+		 								</tr>
+		 							
+		 						<tr><td colspan="3" class="space"></td></tr>
+		 				
+
+		 								<tr>
+		 									<td rowspan="3"><span class="required">*</span>Shipping Type:</td>
+		 									<td>Standard ($5.00)<input type="radio" name="shippingType" id="shippingTypeStandard" value="Standard" ></td>
+		 									<td><label class="errorMessage"></label></td>
+
+		 								</tr>
+		 								<tr>
+		 									<td>Express ($10.00)<input type="radio" name="shippingType" id="shippingTypeExpress" value="Express"></td>
+		 									<td><label class="errorMessage"></label></td>
+		 								</tr>
+		 								<tr>
+		 									<td>Overnight ($20.00)<input type="radio" name="shippingType" id="shippingTypeOvernight" value="Overnight"></td>
+		 									<td><label class="errorMessage"></label></td>
+		 								</tr>
+
+		 								<tr><td colspan="3" class="space"></td></tr>
+
+		 								<tr>
+		 									<th class="header" colspan="3">Submit Order</th>
+		 								</tr>
+
+		 								<tr><td colspan="3" class="space"></td></tr>
+		 								
+
+		 								<tr>
+		 									<td><input type="submit" name="btnSubmit" id="btnSubmit" value="Submit Order"></td>
+		 									<td><input type="reset" name="btnReset" id="btnReset" value="Reset Form" ></td>
+		 									<td></td>
+		 								</tr>
+		 							</table>
+		 						</fieldset>
+
+		 					</form>
+		 				</div>
+
+		 				<a href="https://validator.w3.org/check?uri=referer"><img
+		 					src="https://upload.wikimedia.org/wikipedia/commons/b/bb/W3C_HTML5_certified.png"
+		 					alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+
+		 					<a href="http://jigsaw.w3.org/css-validator/check/referer">
+		 						<img style="border:0;width:88px;height:31px"
+		 						src="http://jigsaw.w3.org/css-validator/images/vcss"
+		 						alt="Valid CSS!" />
+		 					</a>
+
+		 			</body>
+		 			</html>
